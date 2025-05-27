@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Personas Chatbot</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; }
+    input, button { padding: 10px; width: 100%; margin: 10px 0; }
+    pre { background: #f9f9f9; padding: 15px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h2>Ask the AI Personas</h2>
+  <input type="text" id="userInput" placeholder="What's your question?" />
+  <button onclick="sendQuestion()">Ask</button>
+  <pre id="responseBox">Responses will appear here...</pre>
+
+  <script>
+    async function sendQuestion() {
+      const input = document.getElementById('userInput').value;
+      const responseBox = document.getElementById('responseBox');
+      responseBox.innerText = "Thinking...";
+
+      const res = await fetch("https://acon10.app.n8n.cloud/webhook/d2585861-557c-4996-a931-54c3811ae5a1?token=MYMVP123", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: input })
+      });
+
+      const data = await res.json();
+      responseBox.innerText = data.merged_summary || "Something went wrong.";
+    }
+  </script>
+</body>
+</html>
